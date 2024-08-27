@@ -1,5 +1,7 @@
+import { count } from "console";
 import net from "net";
 import { WebSocket, WebSocketServer } from "ws";
+import { createUnzip } from "zlib";
 
 interface VehicleData {
   battery_temperature: number;
@@ -11,13 +13,33 @@ const WS_PORT = 8080;
 const tcpServer = net.createServer();
 const websocketServer = new WebSocketServer({ port: WS_PORT });
 
+let countAnomaly = 0;
+
 tcpServer.on("connection", (socket) => {
   console.log("TCP client connected");
 
   socket.on("data", (msg) => {
     console.log(`Received: ${msg.toString()}`);
 
-    const jsonData: VehicleData = JSON.parse(msg.toString());
+    let jsonData: VehicleData;
+    try {
+      jsonData = JSON.parse(msg.toString());
+    } catch (e) {
+      jsonData = JSON.parse(msg.toString().substring(0, msg.length - 1));
+    }
+
+    if (jsonData.battery_temperature > 80 || jsonData.battery_temperature < 20) {
+      countAnomaly++;
+      console.log("Anomaly detected: " + countAnomaly)
+
+      if (countAnomaly > 3) {
+        console.log(jsonData.timestamp + ": Normal temperature exceeded more than 3 times in 5 seconds!")
+      }
+
+      setTimeout(() => {
+        countAnomaly--;
+      }, 5000)
+    }
 
     // Send JSON over WS to frontend clients
     websocketServer.clients.forEach(function each(client) {
