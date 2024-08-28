@@ -22,7 +22,7 @@ int main () {
 
         sscanf(data.c_str(), "%lx", &dataInInt);
 
-        // 16 bits long starting from position 0
+        // 16 bits long starting from position 0, little endian
         // grab 1 byte each
         int mask = 0xFF;
         uint msb = (dataInInt >> 48) & mask;
