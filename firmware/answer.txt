@@ -1,3 +1,19 @@
 Use this file to write your answer to Stage 2 of the firmware tasks.
 
 Question 1:
+ 
+CAN's main desirable properties that make it a top choice for Redback's numerous departments is that it allows for multi master
+connections, meaning that different ECUs/peripherals can communicate to each other. It also has a priority system to ensure no interruption of data.
+Protocols like SPI has a master-slave system, where only one controller controls all communications. This multi master system is beneficial as the 
+different systems in the Redback vehicle need to communicate to each other, (e.g. Embedded Systems' electronics communicating to DAQ's electronics for 
+data acquisition and to AV's electronics for live autonomous decision making).
+CAN also has robust error handling mechanisms (there are 5 to be exact) that is beneficial for improving the system and bugfixing. CAN is also fault tolerant,
+meaning it continues to run even if a connection/node fails. Not only will this prevent major system failures (which can clearly be dangerous in the context of motorsport),
+but since data will continue to be collected even in the event of a fault, debugging and fixing can be made easier. In contrast, USB is not as fault tolerant and may fail in situations
+where CAN continues to run.
+In addition, CAN's relatively low cost and simple wiring allow for easy maintenance. 
+
+CAN's disadvantages include having limited space for data payloads compared to other protocols. CAN is limited to 8 bytes while CAN-FD is limited to 64. This can be an issue if a system requires many 
+connections. CAN also has a relatively slow data transfer rate (up to 1Mbps for CAN and 5Mbps for CAN-FD), which becomes a problem if alot of data needs to be communicated
+between systems. However, these disadvantages are outweighed by the advantages, or are not that relevant (e.g the number of systems in the vehicle communicating through CAN likely does 
+not exceed the limits), which is why Redback's numerous departments use CAN.
