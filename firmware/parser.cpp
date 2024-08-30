@@ -10,7 +10,7 @@ int main () {
 
     while (getline(Dump, line)) {
         // get ID
-        if (line.substr(26, 3).compare(frameId) != 0) {
+        if (line.substr(26, 3) != frameId) {
             continue;
         }
 
@@ -45,4 +45,5 @@ int main () {
     }
 
     Dump.close();
+    return 0;
 }
