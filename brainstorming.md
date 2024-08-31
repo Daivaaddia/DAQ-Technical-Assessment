@@ -17,17 +17,17 @@ Both WheelSpeedFR and RR's signals (were) written as being in big endian, but it
 The main data reading can be done by:
 - grabbing the data portion (string) then converting it to an unsigned 64 bit integer (uint64_t) using sscanf. After a bit of searching the string must be converted to a C style null terminated
 string using .c_str()
-- WheelSpeedFR's data is in the first 16 bits (the first 2 bytes). Since the data payload is 8 bytes, we first grab the 2nd byte by shifting it 6 bytes to the right and grabbing the
-rightmost byte. This will be our most significant byte (MSB). Then grabbing the 1st byte as our least significant byte (LSB), essentially reversing the order of the bytes to get the number.
-The scaling factor is then applied.
+- WheelSpeedFR's data is in the first 16 bits (the first 2 bytes). The byte order is reversed to get the actual stored value. The scaling factor is then applied.
 - This concept is also applied to WheelSpeedRR in the exact same way.
 
 In order to set the output as 1 decimal place as per the spec, a way to do it was to use iomanip's setprecision. This will add extra size, but I noticed that it only adds around 6kb (using ls -l), 
 which should be fine. 
 
-And with that, the parser meets spec requirements. I do want give making a general purpose DBC/CAN parser a try though, I feel like making a parser with tons of hardcoding like this doesn't feel right.
+And with that, the parser meets spec requirements (parser.cpp). I do want give making a general purpose DBC/CAN parser a try though, I feel like making a parser with tons of hardcoding like this doesn't feel right.
 
 ### General DBC/CAN Parser
+
+(genParser.cpp)
 
 Plan:
 Split into 2 parts, the DBC parsing and the CAN log file parsing

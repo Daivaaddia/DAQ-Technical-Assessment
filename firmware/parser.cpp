@@ -14,33 +14,37 @@ int main () {
             continue;
         }
 
-        //grab timestamp
+        // get timestamp substring
         std::cout << line.substr(0, 19) << ": WheelSpeedFR: ";
-
+        // data payload substring
         std::string data = line.substr(30, 16);
         uint64_t dataInInt;
-
         sscanf(data.c_str(), "%lx", &dataInInt);
 
         // 16 bits long starting from position 0, little endian
-        // grab 1 byte each
         int mask = 0xFF;
+        // Shift data by 48 bits to grab 2nd byte
         uint msb = (dataInInt >> 48) & mask;
-        uint fr = msb << 8;
+        uint wheelSpeedFRVal = msb << 8;
+        // grab first byte
         uint lsb = (dataInInt >> 56) & mask;
-        fr |= lsb;
+        wheelSpeedFRVal |= lsb;
 
+        // 16 bits long starting from position 32, little endian
+        // grab 2nd byte
         msb = (dataInInt >> 16) & mask;
-        uint rr = msb << 8;
+        uint wheelSpeedRRVal = msb << 8;
+        // grab 1st byte
         lsb = (dataInInt >> 24) & mask;
-        rr |= lsb;
+        wheelSpeedRRVal |= lsb;
 
+        // set to 1 DP
         std::cout << std::fixed << std::setprecision(1);
 
-        double frOutput = fr * 0.1;
+        double frOutput = wheelSpeedFRVal * 0.1;
         std::cout << frOutput << '\n';
 
-        double rrOutput = rr * 0.1;
+        double rrOutput = wheelSpeedRRVal * 0.1;
         std::cout << line.substr(0, 19) << ": WheelSpeedRR: " << rrOutput << '\n';
     }
 
