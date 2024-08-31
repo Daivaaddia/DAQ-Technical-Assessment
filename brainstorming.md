@@ -64,7 +64,7 @@ This general parser assumes some things:
 - The DBC file matches the same format as the one given and its format is correct. This includes each CAN frame in the DBC being separated by at least 1 newline. 
 - This means that CAN frames are found by lines starting with 'BO_', and alot of the parsing is done by finding certain markers
 that separate data, e.g. whitespace and symbols like | and ,
-- The CAN dump/log file is in the format: <timestamp> <interface> <id#payload> all separated by whitespace
+- The CAN dump/log file is in the format: {timestamp} {interface} {id#payload} all separated by whitespace
 - It outputs every data listed in the DBC file, so funny enough this actually doesn't meet spec requirements.
 
 The output of this general parser is in output2.txt
