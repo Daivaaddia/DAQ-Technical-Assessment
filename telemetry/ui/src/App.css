@@ -5,10 +5,8 @@
 .App-header {
   background-color: #000000;
   min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -28,5 +26,50 @@
 
 .value-title {
   font-size: calc(25px + 2vmin);
+}
+
+.data-display {
+  display: flex;
+  flex-direction: column;
+}
+
+.log-section {
+  background-color: #131313;
+  border: 1px solid white;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.log-container {
+  font-size: 1rem;
+  color: #d1d1d1;
+  border: 1px solid white;
+  margin-left: 8px;
+  margin-right: 8px;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+
+@media (max-width: 1000px) {
+  .App-header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .data-display {
+    order: 1;
+  }
+  
+  .log-section {
+    order: 2;
+  }
 }
 

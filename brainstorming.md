@@ -78,4 +78,8 @@ There is an npm package we can use instead, jsonrepair, that fixes JSON-like str
 To track whether the temp has reached outside of the accepted range more than 3 times in 5 seconds, we can use a simple counter system with
 timers that decrement the counter after 5 seconds. 
 
+I feel like having the error only being logged to console is not as useful as it should be. I think the frontend should also show these error logs. To do this,
+I created a section that displays all logs from latest to earliest, and all the logs are stored in an array updated with useState. I'll also make sure 
+the web app is at least a little bit responsive.
+
 ## Cloud

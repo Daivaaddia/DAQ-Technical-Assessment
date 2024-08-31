@@ -7,6 +7,7 @@ import { jsonrepair } from 'jsonrepair';
 interface VehicleData {
   battery_temperature: number;
   timestamp: number;
+  errorMsg?: string;
 }
 
 const TCP_PORT = 12000;
@@ -33,7 +34,9 @@ tcpServer.on("connection", (socket) => {
       countAnomaly++;
 
       if (countAnomaly > 3) {
-        console.log(jsonData.timestamp + ": Normal temperature exceeded more than 3 times in 5 seconds!")
+        const errorMsg =  "Temperature detected to be below or higher than normal range more than 3 times in 5 seconds!";
+        console.log(jsonData.timestamp + ': ' + errorMsg);
+        jsonData.errorMsg = errorMsg;
       }
 
       setTimeout(() => {
@@ -44,7 +47,7 @@ tcpServer.on("connection", (socket) => {
     // Send JSON over WS to frontend clients
     websocketServer.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(msg.toString());
+        client.send(JSON.stringify(jsonData));
       }
     });
   });
