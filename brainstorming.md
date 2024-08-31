@@ -72,9 +72,10 @@ The output of this general parser is in output2.txt
 ## Telemetry
 
 Looks like the app crashes when a random additional '}' appears in the end of the data. This can be fixed by simply removing the last '}' character
-when JSON.parse fails. This is not a good fix however.
+when JSON.parse fails. This is a bad hardcoded fix however, as it only deals with a very specific error case that we have prior knowledge of. 
+There is an npm package we can use instead, jsonrepair, that fixes JSON-like strings to become valid JSON. I'll use this instead.
 
 To track whether the temp has reached outside of the accepted range more than 3 times in 5 seconds, we can use a simple counter system with
-timers that decrement the counter after 5 seconds.
+timers that decrement the counter after 5 seconds. 
 
 ## Cloud

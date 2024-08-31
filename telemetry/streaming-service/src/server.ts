@@ -2,6 +2,7 @@ import { count } from "console";
 import net from "net";
 import { WebSocket, WebSocketServer } from "ws";
 import { createUnzip } from "zlib";
+import { jsonrepair } from 'jsonrepair';
 
 interface VehicleData {
   battery_temperature: number;
@@ -25,12 +26,11 @@ tcpServer.on("connection", (socket) => {
     try {
       jsonData = JSON.parse(msg.toString());
     } catch (e) {
-      jsonData = JSON.parse(msg.toString().substring(0, msg.length - 1));
+      jsonData = JSON.parse(jsonrepair(msg.toString()));
     }
 
     if (jsonData.battery_temperature > 80 || jsonData.battery_temperature < 20) {
       countAnomaly++;
-      console.log("Anomaly detected: " + countAnomaly)
 
       if (countAnomaly > 3) {
         console.log(jsonData.timestamp + ": Normal temperature exceeded more than 3 times in 5 seconds!")
